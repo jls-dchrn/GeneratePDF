@@ -1,6 +1,6 @@
 [project]
 name = "pdf-generator"
-version = "0.1.0"
+version = "0.1.1"
 description = "Modular PDF generator"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -8,11 +8,12 @@ authors = [{ name = "Jules Duchiron"}]
 dependencies = [
     "reportlab",
     "lorem",
-    "PyPDF2"
+    "PyPDF2",
+    "click",
 ]
 
 [project.scripts]
-generate-pdf = "pdf_generator.cli:main"
+generate-pdf = "pdf_generator.cli:generate_pdf"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

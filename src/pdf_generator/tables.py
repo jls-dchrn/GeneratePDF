@@ -6,7 +6,7 @@ import random
 def generate_table(columns=3, rows=4, width=500):
     data = [["Header {}".format(i+1) for i in range(columns)]]
     for _ in range(rows):
-        row = [" ".join(lorem.text().split()[:random.randint(2, 5)]) for _ in range(columns)]
+        row = [" ".join(lorem.text().split()[:random.randint(1, 3)]) for _ in range(columns)]
         data.append(row)
 
     col_widths = [width / columns] * columns

@@ -1,13 +1,12 @@
-from reportlab.platypus import Paragraph, Spacer
-import lorem
+import random
 
-def generate_paragraph(style, word_count=100):
-    words = lorem.text().split()[:word_count]
-    return Paragraph(" ".join(words), style)
+def generate_paragraph_text(lines: int, characters_per_line: int) -> str:
+    """Generate placeholder text for a given number of lines and characters per line."""
+    total_chars = int(lines * characters_per_line)
+    words = []
+    while sum(len(w) + 1 for w in words) < total_chars:
+        word_length = random.randint(3, 10)
+        word = ''.join(random.choices("abcdefghijklmnopqrstuvwxyz", k=word_length))
+        words.append(word)
+    return ' '.join(words)
 
-def add_paragraphs(count, style, spacing=10):
-    elements = []
-    for _ in range(count):
-        elements.append(generate_paragraph(style))
-        elements.append(Spacer(1, spacing))
-    return elements

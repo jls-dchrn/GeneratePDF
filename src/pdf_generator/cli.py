@@ -1,29 +1,34 @@
-import argparse
-import time
+import click
 from .builder import build_pdf
+import time
 
-def main():
-    parser = argparse.ArgumentParser(description="Generate structured PDFs with paragraphs and tables.")
-    parser.add_argument("--pages", type=int, default=5, help="Number of pages")
-    parser.add_argument("--paragraphs", type=int, default=3, help="Paragraphs per page")
-    parser.add_argument("--tables", type=int, default=2, help="Tables per document")
-    parser.add_argument("--output", type=str, default="generated.pdf", help="Output filename")
-    parser.add_argument("--output-dir", type=str, default="pdf_files", help="Output directory")
-
-    args = parser.parse_args()
-
-    print(f"Generating '{args.output}' with {args.pages} pages, {args.paragraphs} paragraphs per page, and {args.tables} tables.")
+@click.command()
+@click.option(
+    "--pages",
+    default=3,
+    type=int,
+    help="Number of pages in the PDF document."
+)
+@click.option(
+    "--tables",
+    default=5,
+    type=int,
+    help="Total number of tables to include across all pages."
+)
+@click.option(
+    "--output",
+    default="output.pdf",
+    type=click.Path(),
+    help="Path to the output PDF file."
+)
+def generate_pdf(pages, tables, output):
+    """Generate a PDF document with a given number of pages and tables."""
+    print(f"Generating PDF with {pages} pages and {tables} tables...")
     start = time.time()
-    path, success, actual = build_pdf(
-        filename=args.output,
-        page_count=args.pages,
-        paragraphs_per_page=args.paragraphs,
-        tables_per_doc=args.tables,
-        output_dir=args.output_dir,
-    )
+    path, success, actual = build_pdf(pages, tables, output)
     duration = time.time() - start
 
     if success:
         print(f"✅ PDF generated: {path} ({actual} pages) in {duration:.2f}s")
     else:
-        print(f"⚠️ Page mismatch: expected {args.pages}, got {actual}")
+        print(f"⚠️ Page mismatch: expected {pages}, got {actual}")
